@@ -1,0 +1,20 @@
+# 파이썬 캐시 / Python cache
+__pycache__/
+*.py[cod]
+
+# 구글 로그인 세션 및 쿠키 / Google account sessions & cookies
+profiles/
+
+# 디버그 스크린샷 및 로그 / Debug logs & screenshots
+debug/
+*.log
+
+# 실제 설정 파일 / Real configuration
+config
+config.json
+
+# 모든 배치 파일 제외 / Ignore all batch files
+*.bat
+
+# 깃허브용 예시 배치 파일만 예외로 허용 / Whitelist example batch files
+!*.example.bat
