@@ -1,4 +1,3 @@
-Markdown
 # Google Quota Checker (Gemini Multi-Account Monitor)
 
 [English] An automated monitoring utility built with Python and Playwright to track Google Gemini usage limits, active quotas, and reset schedules across multiple accounts.
@@ -30,7 +29,7 @@ Markdown
 ## 🛠️ Prerequisites / 요구사항
 
 - **OS**: Windows 10 / 11
-- **Python**: Python 3.10 or higher
+- **Python**: Python 3.10+
 - **Browser**: Chromium (Playwright)
 
 ---
@@ -41,62 +40,75 @@ Markdown
 ```bash
 git clone [https://github.com/91hbkim-blip/Google-Quota-Checker.git](https://github.com/91hbkim-blip/Google-Quota-Checker.git)
 cd Google-Quota-Checker
-2. Install Python Dependencies / 파이썬 패키지 설치
-Bash
+```
+
+### 2. Install Python Dependencies / 파이썬 패키지 설치
+```bash
 pip install -r requirements.txt
-3. Install Playwright Browsers / Playwright 브라우저 바이너리 설치
-Bash
+```
+
+### 3. Install Playwright Browsers / Playwright 브라우저 바이너리 설치
+```bash
 python -m playwright install
-⚙️ Configuration & Setup / 설정 및 실행 방법
-Step 1. Prepare Configuration / 설정 파일 준비
-Copy config.example.json and rename it to config (or config.json). Add your account nicknames:
+```
 
-config.example.json 파일의 이름을 config(또는 config.json)로 변경한 뒤 조회할 계정 별칭을 등록합니다.
+---
 
-JSON
+## ⚙️ Configuration & Setup / 설정 및 실행 방법
+
+### Step 1. Prepare Configuration / 설정 파일 준비
+Copy `config.example.json` and rename it to `config` (or `config.json`). Add your account nicknames:  
+`config.example.json` 파일의 이름을 `config`(또는 `config.json`)로 변경한 뒤 조회할 계정 별칭을 등록합니다.
+
+```json
 {
   "accounts": [
     "account_1",
     "account_2"
   ]
 }
-Step 2. Prepare Batch Files / 배치 파일 준비
-Remove the .example extension from the batch script files:
+```
 
-제공된 예시 배치 파일의 .example을 지워 실행 파일로 만듭니다.
+### Step 2. Prepare Batch Files / 배치 파일 준비
+Remove the `.example` extension from the batch script files:  
+제공된 예시 배치 파일의 `.example`을 지워 실행 파일로 만듭니다.
+- `1_최초로그인_설정.example.bat` ➔ `1_최초로그인_설정.bat`
+- `2_한도조회_메시지형.example.bat` ➔ `2_한도조회_메시지형.bat`
 
-1_최초로그인_설정.example.bat ➔ 1_최초로그인_설정.bat
+### Step 3. Initial Login Setup / 최초 로그인 세션 저장
+Run `1_최초로그인_설정.bat`. A browser window will open for each account. Log in to your Google accounts, navigate to the quota screen, and press **Enter** in the console to save your sessions.  
+`1_최초로그인_설정.bat`을 실행해 열리는 브라우저에서 계정별로 로그인한 뒤, 콘솔 창에서 **Enter**를 눌러 세션을 저장합니다.
 
-2_한도조회_메시지형.example.bat ➔ 2_한도조회_메시지형.bat
+### Step 4. Run Quota Checker / 한도 모니터링 실행
+Run `2_한도조회_메시지형.bat` to fetch usage metrics and launch the automated 20-minute refresh loop.  
+`2_한도조회_메시지형.bat`을 실행하여 실시간 사용량을 조회하고 자동 갱신 모니터링을 시작합니다.
 
-Step 3. Initial Login Setup / 최초 로그인 세션 저장
-Run 1_최초로그인_설정.bat. A browser window will open for each account. Log in to your Google accounts, navigate to the quota screen, and press Enter in the console to save your sessions.
+---
 
-1_최초로그인_설정.bat을 실행해 열리는 브라우저에서 계정별로 로그인한 뒤, 콘솔 창에서 Enter를 눌러 세션을 저장합니다.
+## 📂 Project Structure / 프로젝트 구조
 
-Step 4. Run Quota Checker / 한도 모니터링 실행
-Run 2_한도조회_메시지형.bat to fetch usage metrics and launch the automated 20-minute refresh loop.
-
-2_한도조회_메시지형.bat을 실행하여 실시간 사용량을 조회하고 자동 갱신 모니터링을 시작합니다.
-
-📂 Project Structure / 프로젝트 구조
-Plaintext
+```text
 Google_Quota_Checker/
 ├── .gitignore                          # Exclude private cookies, sessions, and logs
 ├── requirements.txt                    # Python library dependencies
-├── main.py                             # Execution entry point & CLI dashboard
-├── collector.py                        # Playwright scraping & quota extraction logic
+├── main.py                             # Entry point & dashboard logic
+├── collector.py                        # Playwright scraping logic
 ├── config.example.json                 # Sample account configuration
 ├── 1_최초로그인_설정.example.bat         # Login session generator template
 └── 2_한도조회_메시지형.example.bat      # Monitoring execution batch template
-🔒 Security & Privacy / 보안 주의사항
-Never share or commit the profiles/ directory. It stores active browser session cookies that grant direct account access without passwords.
+```
 
-(profiles/ 폴더에는 로그인 세션 쿠키가 포함되어 있으므로 절대로 Git 저장소에 커밋하거나 공유하지 마십시오.)
+---
 
-Real account credentials and webhook tokens should remain in your local config file only.
+## 🔒 Security & Privacy / 보안 주의사항
 
-(실제 계정 정보는 로컬 config 파일에만 보관하고 Git 추적에서 제외하십시오.)
+- **Never share or commit the `profiles/` directory.** It stores active browser session cookies that grant direct account access without passwords.  
+  (`profiles/` 폴더에는 로그인 세션 쿠키가 포함되어 있으므로 절대로 Git 저장소에 커밋하거나 공유하지 마십시오.)
+- Real account credentials and webhook tokens should remain in your local `config` file only.  
+  (실제 계정 정보는 로컬 `config` 파일에만 보관하고 Git 추적에서 제외하십시오.)
 
-📄 License / 라이선스
-Distributed under the MIT License. See LICENSE for more information.
+---
+
+## 📄 License / 라이선스
+
+Distributed under the MIT License. See `LICENSE` for more information.
